@@ -1,0 +1,80 @@
+CREATE TABLE test(
+	id INT IDENTITY(1, 1),
+	name VARCHAR(50),
+)
+
+INSERT INTO test VALUES
+	('JOHN'),
+	('DOE'),
+	('ADAM'),
+	('SMITH'),
+	('RACHEL');
+
+SELECT * FROM test
+
+DROP TABLE test
+-- DROP DELETES THE TABLE COMPLETELY
+
+DELETE FROM test;
+-- DELETES THE DATE INSIDE THE TABLE, IDENTITY IS SET TO WHERE IT LEFT OFF
+
+TRUNCATE TABLE test;
+---- DELETES THE DATE INSIDE THE TABLE, IDENTITY IS SET TO (1, 1)
+
+CREATE TABLE test2(
+	data1 SMALLINT,
+	data2 INT, 
+	data3 BIGINT,
+	data4 DECIMAL(10, 2),
+	data5 VARCHAR(40)
+	);
+
+INSERT INTO test2 VALUES
+	(2, 33333333, 99999999999999999, 12.09, 'HELLO'); 
+
+SELECT * FROM test2
+
+
+CREATE TABLE photos(
+	id INT PRIMARY KEY IDENTITY,
+	photo VARBINARY(MAX)
+)
+
+INSERT INTO photos 
+SELECT * FROM OPENROWSET(
+	BULK 'D:\maab_sql\lesson-2\homework\1920x1080.jpg', SINGLE_BLOB
+)AS IMG
+
+SELECT * FROM photos
+
+
+CREATE TABLE student(
+	id INT PRIMARY KEY IDENTITY,
+	classes int NOT NULL,
+	tuition_per_class DECIMAL(10,2),
+	total_tuition AS (classes * tuition_per_class)
+)
+
+INSERT INTO student VALUES
+	(3, 4000),
+	(4, 3700);
+
+SELECT * FROM student
+
+CREATE TABLE Employee(
+	id INT,
+	name VARCHAR(50),
+)
+
+BULK INSERT Employee
+FROM 'D:\maab_sql\workers.csv'
+WITH(
+	FIRSTROW=2,
+	FIELDTERMINATOR=',',
+	ROWTERMINATOR='\n'
+)
+
+SELECT * FROM Employee
+
+
+
